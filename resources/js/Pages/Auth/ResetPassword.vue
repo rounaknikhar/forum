@@ -1,7 +1,6 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -30,48 +29,25 @@ const submit = () => {
     <Head title="Reset Password" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+                <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required autofocus
+                    autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
                 <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
+                <TextInput id="password" v-model="form.password" type="password" class="mt-1 block w-full" required
+                    autocomplete="new-password" />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-4">
                 <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
+                <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password"
+                    class="mt-1 block w-full" required autocomplete="new-password" />
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
