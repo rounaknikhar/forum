@@ -21,12 +21,14 @@ defineProps({ posts: Object });
             <div class="post-container">
                 <div v-for="post in posts" :key="post.id">
                     <div class="post-card flex">
-                        <div class="upvote">
-                            + 1 -
+                        <div class="upvote flex flex-col justify-between items-center">
+                            <a class="up" href="javacript:void(0)">+</a>
+                            <span class="mt-1">0</span>
+                            <a class="down" href="javacript:void(0)">-</a>
                         </div>
-                        <div class="content w-7/8 ml-5 w-full">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center justify-start mb-4">
+                        <div class="content w-7/8 ml-6 w-full">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center justify-start">
                                     <img class="avatar avatar-top w-1/5" :src="post.user.profile_photo_url" alt="avatar" />
                                     <a class="w-3/8 flex-grow ml-3" href="#">
                                         {{ post.user.name }}
@@ -35,12 +37,36 @@ defineProps({ posts: Object });
                                 <a href="#" class="ml-3">Reply</a>
                             </div>
                             <p class="mb-4">
-                                {{ post.post }}
+                                {{ post.replies.reply }}
                             </p>
                         </div>
                     </div>
-                    <div class="add-reply">
+                    <!-- <div class="add-reply">
                         <textarea name="reply" id="reply" rows="5"></textarea>
+                    </div> -->
+                    <div class="replies ml-20" v-if="post.replies" v-for="reply in post.replies" :key="reply.id">
+                        <div class="post-card flex">
+                            <div class="upvote flex flex-col justify-between items-center">
+                                <a class="up" href="javacript:void(0)">+</a>
+                                <span class="mt-1">0</span>
+                                <a class="down" href="javacript:void(0)">-</a>
+                            </div>
+                            <div class="content w-7/8 ml-6 w-full">
+                                <!-- <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center justify-start">
+                                        <img class="avatar avatar-top w-1/5" :src="reply.user.profile_photo_url"
+                                            alt="avatar" />
+                                        <a class="w-3/8 flex-grow ml-3" href="#">
+                                            {{ reply.user.name }}
+                                        </a>
+                                    </div>
+                                    <a href="#" class="ml-3">Reply</a>
+                                </div> -->
+                                <p class="mb-4">
+                                    {{ reply.reply }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,8 +130,8 @@ a {
         }
 
         .avatar-top {
-            height: 30px;
-            width: 30px;
+            height: 40px;
+            width: 40px;
         }
     }
 }
@@ -115,5 +141,27 @@ a {
     padding: 20px;
     border-radius: 10px;
     margin: 10px 0;
+}
+
+.upvote {
+    background-color: $bodyBg;
+    border-radius: 10px;
+    padding: 2px 10px;
+
+    span {
+        color: $primary;
+        font-weight: 800;
+    }
+
+    .up,
+    .down {
+        color: $primary_hover;
+        font-size: 22px;
+
+        &:hover,
+        &:focus {
+            color: $primary;
+        }
+    }
 }
 </style>

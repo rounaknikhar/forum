@@ -18,6 +18,7 @@ class ReplyFactory extends Factory
     {
         return [
             'post_id' => Post::all()->random()->id,
+            'user_id' => fake()->numberBetween(1, 10),
             'reply' => fake()->sentence(),
         ];
     }

@@ -11,6 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
+use App\Models\Reply;
 
 class User extends Authenticatable
 {
@@ -67,5 +68,13 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the reply for the forum post.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
     }
 }
