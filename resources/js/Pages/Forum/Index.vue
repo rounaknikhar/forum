@@ -37,7 +37,7 @@ defineProps({ posts: Object });
                                 <a href="#" class="ml-3">Reply</a>
                             </div>
                             <p class="mb-4">
-                                {{ post.replies.reply }}
+                                {{ post.post }}
                             </p>
                         </div>
                     </div>
