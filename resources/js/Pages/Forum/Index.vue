@@ -1,6 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm } from "@inertiajs/vue3";
+import { onMounted } from 'vue'
+import { Collapse } from 'flowbite'
 
 defineProps({ posts: Object });
 
@@ -8,6 +10,38 @@ const replyForm = useForm({
     reply: null,
     user_id: null,
     post_id: null,
+})
+
+onMounted(() => {
+    // set the target element that will be collapsed or expanded (eg. navbar menu)
+    const $targetEl = document.getElementById('targetEl');
+
+    // optionally set a trigger element (eg. a button, hamburger icon)
+    const $triggerEl = document.getElementById('triggerEl');
+
+    // optional options with default values and callback functions
+    const options = {
+        onCollapse: () => {
+            console.log('element has been collapsed')
+        },
+        onExpand: () => {
+            console.log('element has been expanded')
+        },
+        onToggle: () => {
+            console.log('element has been toggled')
+        }
+    };
+
+    if ($targetEl) {
+        /*
+        * targetEl: required
+        * options: optional
+        */
+        const collapse = new Collapse($targetEl, $triggerEl, options);
+
+        // show the target element
+        collapse.expand();
+    }
 })
 
 </script>
@@ -25,7 +59,7 @@ const replyForm = useForm({
                 {{ $page.props.flash.message }}
             </p>
             <div class="post-container">
-                <div v-for="post in posts" :key="post.id">
+                <div v-for="post in  posts " :key="post.id">
                     <div class="post-card flex">
                         <div class="upvote flex flex-col justify-between items-center">
                             <a class="up" href="javacript:void(0)">+</a>
@@ -40,7 +74,7 @@ const replyForm = useForm({
                                         {{ post.user.name }}
                                     </a>
                                 </div>
-                                <a href="#" class="ml-3">Reply</a>
+                                <a href="javascript:void(0)" id="triggerEl" aria-expanded="false" class="ml-3">Reply</a>
                             </div>
                             <p class="mb-4">
                                 {{ post.post }}
@@ -73,7 +107,7 @@ const replyForm = useForm({
                             </div>
                         </div>
                     </div>
-                    <form @submit.prevent="replyForm.post(route('replies.store'))">
+                    <form @submit.prevent="replyForm.post(route('replies.store'))" :id="'target-' + post.id" class="hidden">
                         <input type="hidden" name="user_id" :value="$page.props.auth.user[0].id">
                         <input type="hidden" name="post_id" :value="post.id">
                         <div class="add-reply">
