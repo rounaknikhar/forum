@@ -14,8 +14,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['user','replies'])->get();
-        
+        $posts = Post::with(['user','replies.user'])->get();
         return Inertia::render('Forum/Index', [
             'posts' => $posts
         ]);
