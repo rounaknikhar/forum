@@ -1,6 +1,15 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { useForm } from "@inertiajs/vue3";
+
 defineProps({ posts: Object });
+
+const replyForm = useForm({
+    reply: null,
+    user_id: null,
+    post_id: null,
+})
+
 </script>
 <template>
     <AppLayout title="Posts">
@@ -9,12 +18,12 @@ defineProps({ posts: Object });
                 Posts
             </h2>
         </template>
-        <!-- session message -->
-        <p v-if="$page.props.flash.message">
-            {{ $page.props.flash.message }}
-        </p>
 
         <div class="main">
+            <!-- session message -->
+            <p v-if="$page.props.flash.message">
+                {{ $page.props.flash.message }}
+            </p>
             <div class="post-container">
                 <div v-for="post in posts" :key="post.id">
                     <div class="post-card flex">
@@ -64,18 +73,27 @@ defineProps({ posts: Object });
                             </div>
                         </div>
                     </div>
-                    <div class="add-reply">
-                        <div class="flex flex-row">
-                            <div class="w-1/6">
-                                <img class="avatar avatar-top" :src="$page.props.auth.user[0].profile_photo_url"
-                                    alt="avatar" />
-                            </div>
-                            <textarea class="resize-none rounded-md w-4/6 mr-4" name="reply" id="reply"></textarea>
-                            <div class="w-1/6">
-                                <button type="submit" class="post-button w-full">Send</button>
+                    <form @submit.prevent="replyForm.post(route('replies.store'))">
+                        <input type="hidden" name="user_id" :value="$page.props.auth.user[0].id">
+                        <input type="hidden" name="post_id" :value="post.id">
+                        <div class="add-reply">
+                            <div class="flex flex-row">
+                                <div class="w-1/6">
+                                    <img class="avatar avatar-top" :src="$page.props.auth.user[0].profile_photo_url"
+                                        alt="avatar" />
+                                </div>
+                                <div class="text-area-container w-4/6 mr-4">
+                                    <textarea class="resize-none rounded-md" name="reply" id="reply"></textarea>
+                                    <div v-if="replyForm.errors.reply" class="alert text-error alert-error alert-inline">
+                                        <span class="error-text">{{ replyForm.errors.reply }}</span>
+                                    </div>
+                                </div>
+                                <div class="w-1/6">
+                                    <button type="submit" class="post-button w-full">Send</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -143,6 +161,14 @@ a {
 .avatar-top {
     height: 40px;
     width: 40px;
+}
+
+.error-border {
+    border-color: rgb(255, 75, 43);
+}
+
+.error-text {
+    color: rgb(255, 75, 43);
 }
 
 .post-card {

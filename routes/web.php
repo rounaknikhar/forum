@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\ReplyController;
 use Inertia\Inertia;
 
 /*
@@ -34,3 +35,5 @@ Route::middleware([
 });
 
 Route::resource('posts', ForumController::class);
+
+Route::resource('replies', ReplyController::class);
